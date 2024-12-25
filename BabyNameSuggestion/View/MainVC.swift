@@ -14,10 +14,27 @@ class MainVC: UIViewController {
     private let addButton = UIButton()
     private let tableView = UITableView()
     
+    var viewModel = MainViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        self.viewModel = GenerativeService.shared.viewModel
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        closures()
+    }
+    
+    func closures(){
+        viewModel.reloadNames = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
 }
 
 // MARK: -- Func
@@ -34,7 +51,7 @@ extension MainVC {
         view.addSubview(titleLabel)
         titleLabel.text = "İsimler"
         titleLabel.textColor = .tabItem
-        titleLabel.font = .systemFont(ofSize: 30, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 30, weight: .black)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.left.equalToSuperview().inset(20)
@@ -92,15 +109,17 @@ extension MainVC {
 
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.names.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
+        let names = viewModel.names[indexPath.row]
+        cell.nameLabel.text = names
+        let meanings = viewModel.meanings[indexPath.row]
+        cell.meaningLabel.text = meanings
         return cell
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+    
 }

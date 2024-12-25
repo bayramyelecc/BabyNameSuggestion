@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		548C24F02D1B06A400B573CC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 548C24EF2D1B06A400B573CC /* SnapKit */; };
+		54DD7DAB2D1C04C300EF2DA8 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 54DD7DAA2D1C04C300EF2DA8 /* GoogleGenerativeAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				548C24F02D1B06A400B573CC /* SnapKit in Frameworks */,
+				54DD7DAB2D1C04C300EF2DA8 /* GoogleGenerativeAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			name = BabyNameSuggestion;
 			packageProductDependencies = (
 				548C24EF2D1B06A400B573CC /* SnapKit */,
+				54DD7DAA2D1C04C300EF2DA8 /* GoogleGenerativeAI */,
 			);
 			productName = BabyNameSuggestion;
 			productReference = 548C24AF2D1AFCE700B573CC /* BabyNameSuggestion.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				548C24EE2D1B06A400B573CC /* XCRemoteSwiftPackageReference "SnapKit" */,
+				54DD7DA92D1C04C300EF2DA8 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 548C24B02D1AFCE700B573CC /* Products */;
@@ -354,6 +358,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		54DD7DA92D1C04C300EF2DA8 /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-gemini/generative-ai-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -361,6 +373,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 548C24EE2D1B06A400B573CC /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		54DD7DAA2D1C04C300EF2DA8 /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54DD7DA92D1C04C300EF2DA8 /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

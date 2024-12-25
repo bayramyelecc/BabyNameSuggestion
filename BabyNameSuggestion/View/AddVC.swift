@@ -20,6 +20,8 @@ class AddVC: UIViewController {
     private let harmonyTextField = UITextField()
     private let addButton = UIButton()
     
+    var viewModel = MainViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -162,9 +164,26 @@ extension AddVC {
     
     // MARK: -- Button Func
     
-    @objc func addButtonTapped(){
+    @objc func addButtonTapped() {
+        Task {
+            await addButtonTappedAsync()
+        }
+    }
+
+    func addButtonTappedAsync() async {
+        guard let gender = genderSegmentedController.titleForSegment(at: genderSegmentedController.selectedSegmentIndex),
+              let popularity = popularitySegmentedController.titleForSegment(at: popularitySegmentedController.selectedSegmentIndex),
+              let category = categorySegmentedController.titleForSegment(at: categorySegmentedController.selectedSegmentIndex),
+              let harmony = harmonyTextField.text, !harmony.isEmpty else {
+            let alert = UIAlertController(title: "Uyarı", message: "Soyadı Boş Bırakılamaz", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+
+        await viewModel.fetchNames(gender: gender, popularity: popularity, category: category, harmony: harmony)
         dismiss(animated: true, completion: nil)
     }
-    
+        
 }
 
