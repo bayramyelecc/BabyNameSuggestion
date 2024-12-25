@@ -26,8 +26,9 @@ class MainTableViewCell: UITableViewCell {
     }
     
     func setup(){
+        
         contentView.addSubview(backView)
-        backView.backgroundColor = .systemGray6
+        backView.backgroundColor = .cell
         backView.layer.cornerRadius = 15
         backView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(5)
@@ -35,7 +36,7 @@ class MainTableViewCell: UITableViewCell {
         }
         backView.addSubview(nameLabel)
         nameLabel.textColor = .tabItem
-        nameLabel.font = .systemFont(ofSize: 20, weight: .black)
+        nameLabel.font = UIFont(name: "Helvetica-Bold", size: 25)
         nameLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(20)
@@ -43,7 +44,7 @@ class MainTableViewCell: UITableViewCell {
         
         backView.addSubview(meaningLabel)
         meaningLabel.textColor = .black
-        meaningLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        meaningLabel.font = UIFont(name: "Avenir", size: 20)
         meaningLabel.numberOfLines = 0
         meaningLabel.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(5)

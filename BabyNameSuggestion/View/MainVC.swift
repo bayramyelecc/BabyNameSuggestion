@@ -13,6 +13,7 @@ class MainVC: UIViewController {
     private let titleLabel = UILabel()
     private let addButton = UIButton()
     private let tableView = UITableView()
+    private let backView = UIImageView()
     
     var viewModel = MainViewModel()
     
@@ -27,13 +28,22 @@ class MainVC: UIViewController {
         closures()
     }
     
-    func closures(){
+    func closures() {
         viewModel.reloadNames = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                guard let self = self else { return }
+                if self.viewModel.names.isEmpty {
+                    self.tableView.isHidden = true
+                    self.backView.isHidden = false
+                } else {
+                    self.tableView.isHidden = false
+                    self.backView.isHidden = true
+                }
+                self.tableView.reloadData()
             }
         }
     }
+    
     
 }
 
@@ -72,21 +82,32 @@ extension MainVC {
             make.height.equalTo(view.snp.width).multipliedBy(0.1)
         }
         
+        view.addSubview(backView)
+        backView.isHidden = false
+        backView.image = UIImage(named: "backView")
+        backView.contentMode = .scaleAspectFill
+        backView.snp.makeConstraints { make in
+            make.top.equalTo(addButton.snp.bottom)
+            make.left.right.equalToSuperview().inset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+    }
+    
+    func setupTableView(){
+        tableView.isHidden = true
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .background
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.top.equalTo(addButton.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(10)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
-        
-    }
-    
-    func setupTableView(){
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
     }
     
 }
@@ -115,6 +136,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
+        cell.backgroundColor = .clear
         let names = viewModel.names[indexPath.row]
         cell.nameLabel.text = names
         let meanings = viewModel.meanings[indexPath.row]

@@ -14,18 +14,27 @@ class AddVC: UIViewController {
     private let popularityLabel = UILabel()
     private let popularitySegmentedController = UISegmentedControl(items: ["Yaygın", "Nadir", "Farketmez"])
     private let categoryLabel = UILabel()
-    private let categorySegmentedController = UISegmentedControl(items: ["Modern", "Mitoloji", "Doğa", "Tarih", "Kültür", "Osmanlı"])
+    private let categorySegmentedController = UISegmentedControl(items: ["Modern", "Mitoloji", "Doğa", "Tarih", "Osmanlı"])
     private let harmonyLabel = UILabel()
     private let descHarmonyLabel = UILabel()
     private let harmonyTextField = UITextField()
     private let addButton = UIButton()
+    
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     var viewModel = MainViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(closekeyboard))
+        view.addGestureRecognizer(tap)
     }
+    
+    @objc func closekeyboard() {
+        view.endEditing(true)
+    }
+    
 }
 
 // MARK: -- Func
@@ -126,10 +135,22 @@ extension AddVC {
         }
         
         view.addSubview(harmonyTextField)
-        harmonyTextField.placeholder = "Soyadınız.."
+        let placeholder = "Enter text"
+        let placeholderColor = UIColor.gray
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: placeholderColor
+        ]
+        
+        harmonyTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         harmonyTextField.font = .systemFont(ofSize: 15, weight: .bold)
-        harmonyTextField.textColor = .black
+        harmonyTextField.backgroundColor = .textField
         harmonyTextField.borderStyle = .roundedRect
+        harmonyTextField.layer.borderWidth = 1
+        harmonyTextField.layer.borderColor = UIColor.lightGray.cgColor
+        harmonyTextField.layer.cornerRadius = 10
+        harmonyTextField.layer.masksToBounds = true
+        
         harmonyTextField.snp.makeConstraints { make in
             make.top.equalTo(descHarmonyLabel.snp.bottom).offset(15)
             make.left.right.equalToSuperview().inset(20)
@@ -151,6 +172,16 @@ extension AddVC {
             make.height.equalTo(view.snp.width).multipliedBy(0.15)
         }
         
+        view.addSubview(activityIndicator)
+        activityIndicator.color = .black
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.snp.makeConstraints { make in
+            make.height.equalTo(view.snp.height).multipliedBy(0.3)
+            make.width.equalTo(view.snp.height).multipliedBy(0.3)
+            make.center.equalToSuperview()
+        }
+        
     }
     
     func setupNavigationController(){
@@ -165,11 +196,23 @@ extension AddVC {
     // MARK: -- Button Func
     
     @objc func addButtonTapped() {
-        Task {
-            await addButtonTappedAsync()
+        fetchNamesCompleted()
+    }
+    
+    func fetchNamesCompleted() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+        DispatchQueue.global().async {
+            Task {
+                await self.addButtonTappedAsync()
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                }
+            }
         }
     }
-
+    
     func addButtonTappedAsync() async {
         guard let gender = genderSegmentedController.titleForSegment(at: genderSegmentedController.selectedSegmentIndex),
               let popularity = popularitySegmentedController.titleForSegment(at: popularitySegmentedController.selectedSegmentIndex),
@@ -180,10 +223,9 @@ extension AddVC {
             present(alert, animated: true, completion: nil)
             return
         }
-
         await viewModel.fetchNames(gender: gender, popularity: popularity, category: category, harmony: harmony)
         dismiss(animated: true, completion: nil)
     }
-        
+    
 }
 

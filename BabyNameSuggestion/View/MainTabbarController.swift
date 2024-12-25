@@ -13,7 +13,7 @@ class MainTabbarController: UITabBarController {
         super.viewDidLoad()
         
         let mainVC = MainVC()
-        mainVC.tabBarItem.image = UIImage(systemName: "stroller.fill")
+        mainVC.tabBarItem.image = UIImage(systemName: "house")
         mainVC.tabBarItem.title = "İsimler"
         
         let settingsVC = SettingsVC()
@@ -22,7 +22,7 @@ class MainTabbarController: UITabBarController {
         settingsVC.tabBarItem.title = "Ayarlar"
         
         viewControllers = [mainVC, navSettings]
-        tabBar.backgroundColor = .systemGray6
+        tabBar.backgroundColor = .background
         tabBar.tintColor = .tabItem
     }
     
