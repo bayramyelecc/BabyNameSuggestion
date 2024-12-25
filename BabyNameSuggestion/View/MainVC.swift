@@ -85,9 +85,9 @@ extension MainVC {
         view.addSubview(backView)
         backView.isHidden = false
         backView.image = UIImage(named: "backView")
-        backView.contentMode = .scaleAspectFill
+        backView.contentMode = .scaleAspectFit
         backView.snp.makeConstraints { make in
-            make.top.equalTo(addButton.snp.bottom)
+            make.top.equalTo(addButton.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(10)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
