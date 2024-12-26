@@ -14,7 +14,7 @@ class MainTableViewCell: UITableViewCell {
     private let backView = UIView()
     let nameLabel = UILabel()
     let meaningLabel = UILabel()
-    private let rightButton = UIButton()
+    private let favButton = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

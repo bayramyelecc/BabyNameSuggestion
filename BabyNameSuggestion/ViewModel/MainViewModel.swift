@@ -9,13 +9,13 @@ import Foundation
 
 class MainViewModel {
     
-    var names: [String] = [] {
+    var names: [Name] = [] {
         didSet {
             reloadNames?()
         }
     }
     
-    var meanings: [String] = [] {
+    var meanings: [Name] = [] {
         didSet {
             reloadMeanings?()
         }

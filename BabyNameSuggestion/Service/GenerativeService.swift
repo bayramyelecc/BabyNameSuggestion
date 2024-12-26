@@ -19,7 +19,7 @@ class GenerativeService {
         
         let genModel = GenerativeModel(name: "gemini-1.5-flash", apiKey: "AIzaSyA2OBvTrHZUQFzofARH4ph29jCOU-7tQkI")
         
-        let prompt = "Bebek için \(gender) cinsiyetinde, popülerliği \(popularity) olan, \(category) kategorisinde ve soyadı \(harmony) ile uyumlu 10 adet türkçe isim önerisi."
+        let prompt = "Bebek için \(gender) cinsiyetinde, popülerliği \(popularity) olan, \(category) kategorisinde ve soyadı \(harmony) ile uyumlu 20 adet türkçe isim önerisi."
         
         do {
             let response = try await genModel.generateContent(prompt)
@@ -27,19 +27,18 @@ class GenerativeService {
             
             let namesAndMeanings = response.text?.components(separatedBy: "\n")
             
-            var names: [String] = []
-            var meanings: [String] = []
+            var names: [Name] = []
+            var meanings: [Name] = []
             
             namesAndMeanings?.forEach { line in
                 let parts = line.split(separator: ":")
                 if parts.count == 2 {
-                    let name = String(parts[0]).replacingOccurrences(of: "*", with: "").trimmingCharacters(in: .whitespaces)
-                    let meaning = String(parts[1]).replacingOccurrences(of: "*", with: "").trimmingCharacters(in: .whitespaces)
+                    let name = Name(name: parts[0].replacingOccurrences(of: "*", with: "").trimmingCharacters(in: .whitespaces))
+                    let meaning = Name(name: parts[1].replacingOccurrences(of: "*", with: "").trimmingCharacters(in: .whitespaces))
                     names.append(name)
                     meanings.append(meaning)
                 }
             }
-            
             self.viewModel.names = names
             self.viewModel.meanings = meanings
             

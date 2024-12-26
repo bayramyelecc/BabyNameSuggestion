@@ -137,9 +137,9 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
         cell.backgroundColor = .clear
-        let names = viewModel.names[indexPath.row]
+        let names = viewModel.names[indexPath.row].name
         cell.nameLabel.text = names
-        let meanings = viewModel.meanings[indexPath.row]
+        let meanings = viewModel.meanings[indexPath.row].name
         cell.meaningLabel.text = meanings
         return cell
     }
