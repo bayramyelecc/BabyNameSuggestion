@@ -28,6 +28,9 @@ extension SettingsVC {
     }
     
     func setupUI(){
+        
+        view.backgroundColor = .background
+        
         view.addSubview(stackView)
         stackView.axis = .vertical
         stackView.spacing = 10

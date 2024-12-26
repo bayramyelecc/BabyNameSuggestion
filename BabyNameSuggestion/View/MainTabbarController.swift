@@ -19,7 +19,7 @@ class MainTabbarController: UITabBarController {
         let settingsVC = SettingsVC()
         let navSettings = UINavigationController(rootViewController: settingsVC)
         settingsVC.tabBarItem.image = UIImage(systemName: "gear")
-        settingsVC.tabBarItem.title = "Ayarlar"
+        settingsVC.tabBarItem.title = "İletişim"
         
         viewControllers = [mainVC, navSettings]
         tabBar.backgroundColor = .background

@@ -17,7 +17,7 @@ class GenerativeService {
     
     func generateName(gender: String, popularity: String, category: String, harmony: String) async {
         
-        let genModel = GenerativeModel(name: "gemini-1.5-flash", apiKey: "AIzaSyA2OBvTrHZUQFzofARH4ph29jCOU-7tQkI")
+        let genModel = GenerativeModel(name: "gemini-1.5-flash", apiKey: "KENDI_API_KEYINIZ")
         
         let prompt = "Bebek için \(gender) cinsiyetinde, popülerliği \(popularity) olan, \(category) kategorisinde ve soyadı \(harmony) ile uyumlu 20 adet türkçe isim önerisi."
         
